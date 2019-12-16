@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-List<String> list = ['1','2','3'];
+List<dynamic> list = [{'value': '1', 'status': true}, {'value': '2', 'status': true}, {'value': '3', 'status': true}];
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -18,18 +18,14 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.list}) : super(key: key);
 
-  final List<String> list;
+  final List<dynamic> list;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    
-  }
+  String value = '2';
 
   @override
   Widget build(BuildContext context) {
@@ -41,28 +37,24 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView.builder(
           itemCount: list.length,
           itemBuilder: (BuildContext context, int index) {
-          return Dismissible(
-            key: Key(list[index]),
+          if(list[index]['status'] == true){
+            return Dismissible(
+            key: Key(list[index]['status'].toString()),
             onDismissed: (direction) {
               setState( () {
-                list.removeAt(index);
+                list[index]['status'] = false;
               });
             },
-            child: Text(list[index]));
+            child: Text(list[index]['value']));
+          }          
+          
          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            int cont = 0;
-          widget.list.add('2');
-          list.forEach((item) {
-      if(item == '2'){
-          list.removeAt(cont);
-      }
-      cont++;
-    });
+          widget.list.add({'value': '3','status' : false});
         });
         },
         tooltip: 'Increment',
