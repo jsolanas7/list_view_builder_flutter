@@ -41,19 +41,38 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView.builder(
           itemCount: list.length,
           itemBuilder: (BuildContext context, int index) {
-          return Text(list[index]);
+          return Dismissible(
+            key: Key(list[index]),
+            onDismissed: (direction) {
+              setState( () {
+                list.removeAt(index);
+              });
+            },
+            child: Text(list[index]));
          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-      _counter++;
+            int cont = 0;
+          widget.list.add('2');
+          list.forEach((item) {
+      if(item == '2'){
+          list.removeAt(cont);
+      }
+      cont++;
     });
+        });
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  removePar(list){
+    
   } 
+  
 }
